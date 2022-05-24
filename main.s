@@ -224,15 +224,21 @@ mySet:
     mov r1, #0
     bl pinMode
 
+    bx lr
+
 
 myDelay:
     mov r0, #1500
     bl delay
 
+    bx lr
+
 
 myCambioDeEstado:
     bl myLoopTecla
     bl myDelay
+
+    bx lr
 
 myLoopBoton:
     ldr r0, =mensaje2
@@ -257,7 +263,7 @@ sumaBoton:
     ldr r1 ,[r1]
     str r1, [r0]
 
-    bl myCambioDeEstado
+    bx lr
 
 sumaTecla:
     ldr r0, =puntuacionTecla
@@ -269,8 +275,8 @@ sumaTecla:
     ldr r1, =jugador1 // "jugador1"
     ldr r1 ,[r1]
     str r1, [r0]
-    
-    bl myCambioDeEstado
+
+    bx lr
 
 myLoopTecla:
 
