@@ -1,7 +1,7 @@
 /**
 * Universidad del Valle de Guatemala
 * Laboratorio 10 - Organización de computadoras y Assembler
-* "Corrimiento de bits activos" Temario 1 - Manejo de puertos GPIO y Sensores
+* "Corrimiento de bits activos" Temario 1
 * Carnets: 21242, 21096, 20289
 **/ 
 
