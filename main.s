@@ -28,6 +28,18 @@
     jugador1: .asciz "jugador1"
     jugador2: .asciz "jugador2"
 
+    e1: .int 1
+    e2: .int 2
+    e3: .int 3
+    e4: .int 4
+    e5: .int 5
+    e6: .int 6
+    e7: .int 7
+    e8: .int 8
+
+    estadoactual: .int 1
+
+
 
 .text
     .global main
@@ -106,132 +118,196 @@ init:
     mov r0, #1500
     bl delay
 
-    // primer estado
-    mov r0, #0 // wpi 0 "on"
-    mov r1, #1
-    bl digitalWrite
+    estado1:
+        // primer estado
+        mov r0, #0 // wpi 0 "on"
+        mov r1, #1
+        bl digitalWrite
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+        // cargar siguiente estado en estado actual
+        ldr r0, =e2
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
 
-    // segundo estado
-    mov r0, #1 // wpi 1 "on"
-    mov r1, #1
-    bl digitalWrite
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+    estado2:
 
-    // tercer estado
-    mov r0, #0 // wpi 0 "off"
-    mov r1, #0
-    bl digitalWrite
+        // segundo estado
+        mov r0, #1 // wpi 1 "on"
+        mov r1, #1
+        bl digitalWrite
 
-    mov r0, #1 // wpi 1 "off"
-    mov r1, #0
-    bl digitalWrite
+        // cargar siguiente estado en estado actual
+        ldr r0, =e3
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
 
-    mov r0, #2 // wpi 2 "on"
-    mov r1, #1
-    bl digitalWrite
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
 
-    // cuarto estado
-    mov r0, #3 // wpi 3 "on"
-    mov r1, #1
-    bl digitalWrite
+    estado3:
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+        // tercer estado
+        mov r0, #0 // wpi 0 "off"
+        mov r1, #0
+        bl digitalWrite
 
-    // quinto estado
-    mov r0, #2 // wpi 2 "off"
-    mov r1, #0
-    bl digitalWrite
+        mov r0, #1 // wpi 1 "off"
+        mov r1, #0
+        bl digitalWrite
 
-    mov r0, #3 // wpi 3 "off"
-    mov r1, #0
-    bl digitalWrite
+        mov r0, #2 // wpi 2 "on"
+        mov r1, #1
+        bl digitalWrite
 
-    mov r0, #4 // wpi 4 "on"
-    mov r1, #1
-    bl digitalWrite
+        // cargar siguiente estado en estado actual
+        ldr r0, =e4
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
 
-    // sexto estado
-    mov r0, #5 // wpi 5 "on"
-    mov r1, #1
-    bl digitalWrite
+    estado4:
+        // cuarto estado
+        mov r0, #3 // wpi 3 "on"
+        mov r1, #1
+        bl digitalWrite
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+        // cargar siguiente estado en estado actual
+        ldr r0, =e5
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
 
-    // septimo estado
-    mov r0, #4 // wpi 4 "off"
-    mov r1, #0
-    bl digitalWrite
 
-    mov r0, #5 // wpi 5 "off"
-    mov r1, #0
-    bl digitalWrite
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
 
-    mov r0, #6 // wpi 6 "on"
-    mov r1, #1
-    bl digitalWrite
+        
+    estado5:
+        // quinto estado
+        mov r0, #2 // wpi 2 "off"
+        mov r1, #0
+        bl digitalWrite
 
-    // esperar cambio de estado
-    bl myLoopTecla
-    mov r0, #1500
-    bl delay
+        mov r0, #3 // wpi 3 "off"
+        mov r1, #0
+        bl digitalWrite
+
+        mov r0, #4 // wpi 4 "on"
+        mov r1, #1
+        bl digitalWrite
+
+        // cargar siguiente estado en estado actual
+        ldr r0, =e6
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
+
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
+
+    estado6:
+        // sexto estado
+        mov r0, #5 // wpi 5 "on"
+        mov r1, #1
+        bl digitalWrite
+
+        // cargar siguiente estado en estado actual
+        ldr r0, =e7
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
+
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
+
+    estado7:
+        
+        // septimo estado
+        mov r0, #4 // wpi 4 "off"
+        mov r1, #0
+        bl digitalWrite
+
+        mov r0, #5 // wpi 5 "off"
+        mov r1, #0
+        bl digitalWrite
+
+        mov r0, #6 // wpi 6 "on"
+        mov r1, #1
+        bl digitalWrite
+
+        // cargar siguiente estado en estado actual
+        ldr r0, =e8
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
+
+        // esperar cambio de estado
+        bl myLoopTecla
+        mov r0, #1500
+        bl delay
     
-    // octavo estado
-    mov r0, #7 // wpi 7 "on"
-    mov r1, #1
-    bl digitalWrite
+    estado8:
+        // octavo estado
+        mov r0, #7 // wpi 7 "on"
+        mov r1, #1
+        bl digitalWrite
 
-    ldr r0, =mensaje3
-    bl printf
+        // cargar siguiente estado en estado actual
+        ldr r0, =e1
+        ldr r0, [r0]
+        ldr r1, =estadoactual
+        str r0, [r1]
 
-    ldr r0, =ultimoJugador
-    bl printf
-
-    ldr r0, =formato
-    ldr r1, =key2
-    bl scanf
-
-    ldr r3, =key2
-    ldrb r3, [r3]
-
-    // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
-    mov r2, #0x71
-    cmp r2, r2
-    beq end
-
-    //Lectura del sensor para ir a init o end
-    mov r0, #25	 		
-	bl 	digitalRead
-	cmp	r0, #0
-	bne init
     
-    mov r0, #5000
-    bl delay
-    b end
+    finJuego:
+        ldr r0, =mensaje3
+        bl printf
+
+        ldr r0, =ultimoJugador
+        bl printf
+
+        ldr r0, =formato
+        ldr r1, =key2
+        bl scanf
+
+        ldr r3, =key2
+        ldrb r3, [r3]
+
+        // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
+        mov r2, #0x71
+        cmp r2, r2
+        beq end
+
+        //Lectura del sensor para ir a init o end
+        mov r0, #25	 		
+        bl 	digitalRead
+        cmp	r0, #0
+        bne init
+        
+        mov r0, #5000
+        bl delay
+        b end
 
 
 myLoopBoton:
@@ -257,6 +333,39 @@ sumaBoton:
     ldr r1 ,[r1]
     str r1, [r0]
 
+    // identificando estado actual
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #1
+    beq estado1
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #2
+    beq estado2
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #3
+    beq estado3
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #4
+    beq estado4
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #5
+    beq estado5
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #6
+    beq estado6
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #7
+    beq estado7
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #8
+    beq estado8
 
 
 sumaTecla:
@@ -270,7 +379,39 @@ sumaTecla:
     ldr r1 ,[r1]
     str r1, [r0]
 
-
+    // identificando estado actual
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #1
+    beq estado1
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #2
+    beq estado2
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #3
+    beq estado3
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #4
+    beq estado4
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #5
+    beq estado5
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #6
+    beq estado6
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #7
+    beq estado7
+    ldr r0, =estadoactual
+    ldr r0, [r0]
+    cmp r0, #8
+    beq estado8
 
 myLoopTecla:
 
