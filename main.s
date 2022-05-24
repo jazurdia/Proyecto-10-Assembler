@@ -154,9 +154,12 @@ init:
     ldr r1, =key2
     bl scanf
 
+    ldr r3, =key2
+    ldrb r3, [r3]
+
     // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
     mov r2, #0x71
-    cmp r1, r2
+    cmp r2, r2
     beq end
 
     //Lectura del sensor para ir a init o end
@@ -278,7 +281,8 @@ myLoopTecla:
     ldr r1, =key
     bl scanf
 
-    ldrb r2, [r1] // r2 = first byte of key "y"
+    ldr r2, =key
+    ldrb r2, [r2] // r2 = first byte of key "y"
 
     cmp r2, #0x79 // 'y'
     beq sumaTecla
