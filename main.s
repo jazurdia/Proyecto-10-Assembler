@@ -17,10 +17,16 @@
     error: .asciz "Se ha producido un error.\n"
     mensaje: .asciz "Ingresa una tecla. \n"
     mensaje2: .asciz "Esperando al boton \n"
+    mensaje3: .asciz "Ultimo jugador: \n"
     key: .asciz "n"
+    key2: .asciz "n"
     formato: .asciz "%s"
     puntuacionTecla: .word 0
     puntuacionBoton: .word 0
+
+    ultimoJugador: .asciz "jugador0"
+    jugador1: .asciz "jugador1"
+    jugador2: .asciz "jugador2"
 
 
 .text
@@ -43,20 +49,119 @@ main:   push 	{ip, lr}
 
 init:
     
+    // Seteo de los pines GPIO
     bl mySet
 
 
+    // esperar cambio de estado
+    bl myCambioDeEstado
 
 
+    // primer estado
+    mov r0, #0 // wpi 0 "on"
+    mov r1, #1
+    bl digitalWrite
 
+    // esperar cambio de estado
+    bl myCambioDeEstado
 
+    // segundo estado
+    mov r0, #1 // wpi 1 "on"
+    mov r1, #1
+    bl digitalWrite
 
+    // esperar cambio de estado
+    bl myCambioDeEstado
+
+    // tercer estado
+    mov r0, #0 // wpi 0 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #1 // wpi 1 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #2 // wpi 2 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myCambioDeEstado
+
+    // cuarto estado
+    mov r0, #3 // wpi 3 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myCambioDeEstado
+
+    // quinto estado
+    mov r0, #2 // wpi 2 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #3 // wpi 3 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #4 // wpi 4 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myCambioDeEstado
+
+    // sexto estado
+    mov r0, #5 // wpi 5 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myCambioDeEstado
+
+    // septimo estado
+    mov r0, #4 // wpi 4 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #5 // wpi 5 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #6 // wpi 6 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myCambioDeEstado
     
+    // octavo estado
+    mov r0, #7 // wpi 7 "on"
+    mov r1, #1
+    bl digitalWrite
 
-    //Lectura en el wpi 25 para determinar si va a "init" o "end".
-    
-    mov r0, #25				
-	bl 	digitalRead				
+    ldr r0, =mensaje3
+    bl printf
+
+    ldr r0, =ultimoJugador
+    bl printf
+
+
+
+    ldr r0, =formato
+    ldr r1, =key2
+    bl scanf
+
+    // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
+    mov r2, #0x71
+    cmp r1, r2
+    beq end
+
+    //Lectura del sensor para ir a init o end
+    mov r0, #25	 		
+	bl 	digitalRead
 	cmp	r0, #0
 	bne init
     
@@ -143,12 +248,22 @@ sumaBoton:
     add r1, #1
     str r1, [r0]
 
+    ldr r0, =ultimoJugador //"  "
+    ldr r1, =jugador2 // "jugador2"
+    ldr r1 ,[r1]
+    str r1, [r0]
+
     bl myCambioDeEstado
 
 sumaTecla:
     ldr r0, =puntuacionTecla
     ldr r1, [r0]
     add r1, #1
+    str r1, [r0]
+
+    ldr r0, =ultimoJugador //"  "
+    ldr r1, =jugador1 // "jugador1"
+    ldr r1 ,[r1]
     str r1, [r0]
     
     bl myCambioDeEstado
