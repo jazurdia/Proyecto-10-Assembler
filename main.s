@@ -152,7 +152,7 @@ init:
     // esperar cambio de estado
     bl myLoopTecla
     mov r0, #1500
-    bl delayy
+    bl delay
 
     // quinto estado
     mov r0, #2 // wpi 2 "off"
