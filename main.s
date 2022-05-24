@@ -48,131 +48,7 @@ main:   push 	{ip, lr}
     b end
 
 init:
-    
-    // Seteo de los pines GPIO
-    bl mySet
 
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-
-    // primer estado
-    mov r0, #0 // wpi 0 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-    // segundo estado
-    mov r0, #1 // wpi 1 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-    // tercer estado
-    mov r0, #0 // wpi 0 "off"
-    mov r1, #0
-    bl digitalWrite
-
-    mov r0, #1 // wpi 1 "off"
-    mov r1, #0
-    bl digitalWrite
-
-    mov r0, #2 // wpi 2 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-    // cuarto estado
-    mov r0, #3 // wpi 3 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-    // quinto estado
-    mov r0, #2 // wpi 2 "off"
-    mov r1, #0
-    bl digitalWrite
-
-    mov r0, #3 // wpi 3 "off"
-    mov r1, #0
-    bl digitalWrite
-
-    mov r0, #4 // wpi 4 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-    // sexto estado
-    mov r0, #5 // wpi 5 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-
-    // septimo estado
-    mov r0, #4 // wpi 4 "off"
-    mov r1, #0
-    bl digitalWrite
-
-    mov r0, #5 // wpi 5 "off"
-    mov r1, #0
-    bl digitalWrite
-
-    mov r0, #6 // wpi 6 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    // esperar cambio de estado
-    bl myCambioDeEstado
-    
-    // octavo estado
-    mov r0, #7 // wpi 7 "on"
-    mov r1, #1
-    bl digitalWrite
-
-    ldr r0, =mensaje3
-    bl printf
-
-    ldr r0, =ultimoJugador
-    bl printf
-
-
-
-    ldr r0, =formato
-    ldr r1, =key2
-    bl scanf
-
-    ldr r3, =key2
-    ldrb r3, [r3]
-
-    // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
-    mov r2, #0x71
-    cmp r2, r2
-    beq end
-
-    //Lectura del sensor para ir a init o end
-    mov r0, #25	 		
-	bl 	digitalRead
-	cmp	r0, #0
-	bne init
-    
-    mov r0, #5000
-    bl delay
-    b end
-
-mySet:
     // GPIO 0 | wPi - 0 | primer bit
     // GPIO 1 | wPi - 1 | segundo bit
     // GPIO 2 | wPi - 2 | tercer bit
@@ -224,21 +100,139 @@ mySet:
     mov r1, #0
     bl pinMode
 
-    bx lr
 
-
-myDelay:
+    // esperar cambio de estado
+    bl myLoopTecla
     mov r0, #1500
     bl delay
 
-    bx lr
+    // primer estado
+    mov r0, #0 // wpi 0 "on"
+    mov r1, #1
+    bl digitalWrite
 
-
-myCambioDeEstado:
+    // esperar cambio de estado
     bl myLoopTecla
-    bl myDelay
+    mov r0, #1500
+    bl delay
 
-    bx lr
+    // segundo estado
+    mov r0, #1 // wpi 1 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myLoopTecla
+    mov r0, #1500
+    bl delay
+
+    // tercer estado
+    mov r0, #0 // wpi 0 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #1 // wpi 1 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #2 // wpi 2 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myLoopTecla
+    mov r0, #1500
+    bl delay
+
+    // cuarto estado
+    mov r0, #3 // wpi 3 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myLoopTecla
+    mov r0, #1500
+    bl delayy
+
+    // quinto estado
+    mov r0, #2 // wpi 2 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #3 // wpi 3 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #4 // wpi 4 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myLoopTecla
+    mov r0, #1500
+    bl delay
+
+    // sexto estado
+    mov r0, #5 // wpi 5 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myLoopTecla
+    mov r0, #1500
+    bl delay
+
+    // septimo estado
+    mov r0, #4 // wpi 4 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #5 // wpi 5 "off"
+    mov r1, #0
+    bl digitalWrite
+
+    mov r0, #6 // wpi 6 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    // esperar cambio de estado
+    bl myLoopTecla
+    mov r0, #1500
+    bl delay
+    
+    // octavo estado
+    mov r0, #7 // wpi 7 "on"
+    mov r1, #1
+    bl digitalWrite
+
+    ldr r0, =mensaje3
+    bl printf
+
+    ldr r0, =ultimoJugador
+    bl printf
+
+    ldr r0, =formato
+    ldr r1, =key2
+    bl scanf
+
+    ldr r3, =key2
+    ldrb r3, [r3]
+
+    // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
+    mov r2, #0x71
+    cmp r2, r2
+    beq end
+
+    //Lectura del sensor para ir a init o end
+    mov r0, #25	 		
+	bl 	digitalRead
+	cmp	r0, #0
+	bne init
+    
+    mov r0, #5000
+    bl delay
+    b end
+
 
 myLoopBoton:
     ldr r0, =mensaje2
@@ -263,7 +257,7 @@ sumaBoton:
     ldr r1 ,[r1]
     str r1, [r0]
 
-    bx lr
+
 
 sumaTecla:
     ldr r0, =puntuacionTecla
@@ -276,7 +270,7 @@ sumaTecla:
     ldr r1 ,[r1]
     str r1, [r0]
 
-    bx lr
+
 
 myLoopTecla:
 
