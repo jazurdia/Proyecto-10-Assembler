@@ -25,8 +25,8 @@
     puntuacionBoton: .word 0
 
     ultimoJugador: .asciz "jugador0"
-    jugador1: .asciz "jugador1"
-    jugador2: .asciz "jugador2"
+    jugador1: .asciz "Ultimo movimiento de jugador1"
+    jugador2: .asciz "Ultimo movimiento de jugador2"
 
     e1: .int 1
     e2: .int 2
@@ -70,6 +70,8 @@ init:
     // GPIO 5 | wPi - 5 | sexto bit
     // GPIO 6 | wPi - 6 | septimo bit
     // GPIO 7 | wPi - 7 | octavo bit
+    //        | wPi - 22| luz jugador 1
+    //        | wPi - 23| luz jugador 2
     // GPIO 21| wPi - 21| INPUT
     // GPIO 25| wPi - 25| INPUT
 
@@ -102,6 +104,14 @@ init:
     bl pinMode
 
     mov r0, #7
+    mov r1, #1
+    bl pinMode
+
+    mov r0, #22 // luz jugador 1
+    mov r1, #1
+    bl pinMode
+
+    mov r0, #23 // luz jugador 2
     mov r1, #1
     bl pinMode
 
@@ -311,7 +321,7 @@ init:
         b end
 
 
-myLoopBoton:
+myLoopBoton: // jugador 2
     ldr r0, =mensaje2
     bl printf
     
@@ -323,8 +333,8 @@ myLoopBoton:
     
     b myLoopTecla
     
-sumaBoton:
-    ldr r0, =puntuacionBoton
+sumaBoton: // jugador 2
+        ldr r0, =puntuacionBoton
     ldr r1, [r0]
     add r1, #1
     str r1, [r0]
@@ -333,6 +343,8 @@ sumaBoton:
     ldr r1, =jugador2 // "jugador2"
     ldr r1 ,[r1]
     str r1, [r0]
+
+    
 
     // identificando estado actual
     ldr r0, =estadoactual
@@ -369,7 +381,7 @@ sumaBoton:
     beq estado8
 
 
-sumaTecla:
+sumaTecla: // jugador 1
     ldr r0, =puntuacionTecla
     ldr r1, [r0]
     add r1, #1
@@ -414,7 +426,7 @@ sumaTecla:
     cmp r0, #8
     beq estado8
 
-myLoopTecla:
+myLoopTecla: // jugador 1
 
     ldr r0, =mensaje
     bl printf
