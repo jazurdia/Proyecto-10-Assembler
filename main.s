@@ -299,17 +299,18 @@ init:
         //ldr r0, =mensaje3
         //bl printf
 
+        //Mensaje Tecla
         ldr r0, =mensajeTecla
+        ldr r1, =puntuacionTecla
+        ldr r1, [r1]
         bl printf
 
-        ldr r0, =puntuacionTecla
-        bl printf
-
+        //Mensaje del Boton
         ldr r0, =mensajeBoton
+        ldr r1, =puntuacionBoton
+        ldr r1, [r1]
         bl printf
         
-        ldr r0, =puntuacionBoton
-        bl printf
 
         ldr r2, =puntuacionTecla
         ldr r3, =puntuacionBoton
@@ -371,11 +372,6 @@ sumaBoton: // jugador 2
     add r1, #1
     str r1, [r0]
 
-    ldr r0, =mensajeBoton
-    ldr r1, =puntuacionBoton
-    ldr r1,[r1]
-    bl printf
-
     ldr r0, =jugador2 // mostrar que pulsó el jugador 2
     bl printf
 
@@ -433,10 +429,7 @@ sumaTecla: // jugador 1
     add r1, #1
     str r1, [r0]
 
-    ldr r0, =mensajeTecla
-    ldr r1, =puntuacionTecla
-    ldr r1,[r1]
-    bl printf
+
 
     ldr r0, =jugador1 // mostrar que pulsó el jugador 2
     bl printf
