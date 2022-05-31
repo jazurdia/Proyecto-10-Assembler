@@ -361,6 +361,7 @@ myLoopBoton: // jugador 2
     cmp r0, #1 // si el boton es presionado, r0 = 1. 
     beq sumaBoton
     
+    
     b myLoopTecla
     
 sumaBoton: // jugador 2
