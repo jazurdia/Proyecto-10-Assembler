@@ -18,6 +18,10 @@
     mensaje: .asciz "Ingresa una tecla. \n"
     mensaje2: .asciz "Esperando al boton \n"
     mensaje3: .asciz "Ultimo jugador: \n"
+    mensajeBoton: .asciz "Puntuacion del jugador 2: \n"
+    mensajeTecla: .asciz "Puntuacion del jugador 1: \n"
+    mensajeGano1: .asciz "Gano el jugador 1 \n"
+    mensajeGano2: .asciz "Gano el jugador 2 \n"
     key: .asciz "n"
     key2: .asciz "n"
     formato: .asciz "%s"
@@ -295,15 +299,41 @@ init:
         ldr r0, =mensaje3
         bl printf
 
-        ldr r0, =ultimoJugador
+        ldr r0, =mensajeTecla
         bl printf
 
+        ldr r0, =puntuacionTecla
+        bl printf
+
+        ldr r0, =mensajeBoton
+        bl printf
+        
+        ldr r0, =puntuacionBoton
+        bl printf
+
+        ldr r2, =puntuacionTecla
+        ldr r3, =puntuacionBoton
+
+        cmp r2, r3
+        bhi ganoJ1
+        bcc ganoJ2
+
+        finJuego2:
+
         ldr r0, =formato
-        ldr r1, =key2
+        ldr r1, =key2 // pedir en teclado "q"
         bl scanf
 
-        ldr r3, =key2
+        ldr r3, =key2 // cargar primer bit como programación defensiva.
         ldrb r3, [r3]
+
+        mov r0, #7 // wpi 7 "off"
+        mov r1, #0
+        bl digitalWrite
+
+        mov r0, #8 // wpi 8 "off"
+        mov r1, #0
+        bl digitalWrite
 
         // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
         mov r2, #0x71
@@ -334,15 +364,25 @@ myLoopBoton: // jugador 2
     b myLoopTecla
     
 sumaBoton: // jugador 2
-        ldr r0, =puntuacionBoton
+    
+    ldr r0, =puntuacionBoton
     ldr r1, [r0]
     add r1, #1
     str r1, [r0]
 
-    ldr r0, =ultimoJugador //"  "
-    ldr r1, =jugador2 // "jugador2"
-    ldr r1 ,[r1]
-    str r1, [r0]
+    ldr r0, =jugador2 // mostrar que pulsó el jugador 2
+    bl printf
+
+    mov r0, #23 // encender led de jugador 2
+    mov r1, #1
+    bl digitalWrite 
+
+    mov r0, #1500
+    bl delay
+
+    mov r0, #23 // apagar led de jugador 2
+    mov r1, #0
+    bl digitalWrite
 
     
 
@@ -387,10 +427,19 @@ sumaTecla: // jugador 1
     add r1, #1
     str r1, [r0]
 
-    ldr r0, =ultimoJugador //"  "
-    ldr r1, =jugador1 // "jugador1"
-    ldr r1 ,[r1]
-    str r1, [r0]
+    ldr r0, =jugador1 // mostrar que pulsó el jugador 2
+    bl printf
+
+    mov r0, #22 // encender led de jugador 2
+    mov r1, #1
+    bl digitalWrite 
+
+    mov r0, #1500
+    bl delay
+
+    mov r0, #22 // apagar led de jugador 2
+    mov r1, #0
+    bl digitalWrite
 
     // identificando estado actual
     ldr r0, =estadoactual
@@ -442,6 +491,46 @@ myLoopTecla: // jugador 1
     beq sumaTecla
 
     b myLoopBoton
+
+ganoJ1:
+    ldr r0, =mensajeGano1
+    bl printf
+
+    ldr r0, =puntuacionTecla
+    bl printf
+
+    mov r0, #22
+    mov r1, #1
+    bl digitalWrite
+
+    mov r0, #1500
+    bl delay
+
+    mov r0, #22
+    mov r1, #0
+    bl digitalWrite
+
+    b finJuego2
+
+ganoJ2:
+    ldr r0, =mensajeGano2
+    bl printf
+
+    ldr r0, =puntuacionBoton
+    bl printf
+
+    mov r0, #23
+    mov r1, #1
+    bl digitalWrite
+
+    mov r0, #1500
+    bl delay
+
+    mov r0, #23
+    mov r1, #0
+    bl digitalWrite
+
+    b finJuego2
 
 end:
     pop {ip, pc}
