@@ -1,6 +1,6 @@
 /**
 * Universidad del Valle de Guatemala
-* Laboratorio 10 - Organización de computadoras y Assembler
+* Proyecto 3 - Organización de computadoras y Assembler
 * "Corrimiento de bits activos" Temario 1
 * Carnets: 21242, 21096, 20289
 **/ 
@@ -18,8 +18,8 @@
     mensaje: .asciz "Ingresa una tecla. \n"
     mensaje2: .asciz "Esperando al boton \n"
     mensaje3: .asciz "Ultimo jugador: \n"
-    mensajeBoton: .asciz "Puntuacion del jugador 2: \n"
-    mensajeTecla: .asciz "Puntuacion del jugador 1: \n"
+    mensajeBoton: .asciz "Puntuacion del jugador 2: %d \n"
+    mensajeTecla: .asciz "Puntuacion del jugador 1: %d \n"
     mensajeGano1: .asciz "Gano el jugador 1 \n"
     mensajeGano2: .asciz "Gano el jugador 2 \n"
     key: .asciz "n"
@@ -29,8 +29,8 @@
     puntuacionBoton: .word 0
 
     ultimoJugador: .asciz "jugador0"
-    jugador1: .asciz "Ultimo movimiento de jugador1"
-    jugador2: .asciz "Ultimo movimiento de jugador2"
+    jugador1: .asciz "Ultimo movimiento de jugador1 \n"
+    jugador2: .asciz "Ultimo movimiento de jugador2 \n"
 
     e1: .int 1
     e2: .int 2
@@ -296,8 +296,8 @@ init:
 
     
     finJuego:
-        ldr r0, =mensaje3
-        bl printf
+        //ldr r0, =mensaje3
+        //bl printf
 
         ldr r0, =mensajeTecla
         bl printf
@@ -314,11 +314,11 @@ init:
         ldr r2, =puntuacionTecla
         ldr r3, =puntuacionBoton
 
-        cmp r2, r3
-        bhi ganoJ1
-        bcc ganoJ2
+        //cmp r2, r3
+        //bhi ganoJ1
+        //bcc ganoJ2
 
-        finJuego2:
+        //finJuego2:
 
         ldr r0, =formato
         ldr r1, =key2 // pedir en teclado "q"
@@ -369,6 +369,11 @@ sumaBoton: // jugador 2
     ldr r1, [r0]
     add r1, #1
     str r1, [r0]
+
+    ldr r0, =mensajeBoton
+    ldr r1, =puntuacionBoton
+    ldr r1,[r1]
+    bl printf
 
     ldr r0, =jugador2 // mostrar que pulsó el jugador 2
     bl printf
@@ -426,6 +431,11 @@ sumaTecla: // jugador 1
     ldr r1, [r0]
     add r1, #1
     str r1, [r0]
+
+    ldr r0, =mensajeTecla
+    ldr r1, =puntuacionTecla
+    ldr r1,[r1]
+    bl printf
 
     ldr r0, =jugador1 // mostrar que pulsó el jugador 2
     bl printf
@@ -492,45 +502,45 @@ myLoopTecla: // jugador 1
 
     b myLoopBoton
 
-ganoJ1:
-    ldr r0, =mensajeGano1
-    bl printf
+//ganoJ1:
+//    ldr r0, =mensajeGano1
+//    bl printf
+//
+//    ldr r0, =puntuacionTecla
+//    bl printf
+//
+//    mov r0, #22
+//    mov r1, #1
+//    bl digitalWrite
 
-    ldr r0, =puntuacionTecla
-    bl printf
+//    mov r0, #1500
+//    bl delay
 
-    mov r0, #22
-    mov r1, #1
-    bl digitalWrite
+//    mov r0, #22
+//    mov r1, #0
+//    bl digitalWrite
 
-    mov r0, #1500
-    bl delay
+//    b finJuego2
 
-    mov r0, #22
-    mov r1, #0
-    bl digitalWrite
+//ganoJ2:
+//    ldr r0, =mensajeGano2
+//    bl printf
 
-    b finJuego2
+//    ldr r0, =puntuacionBoton
+//    bl printf
 
-ganoJ2:
-    ldr r0, =mensajeGano2
-    bl printf
+//    mov r0, #23
+//    mov r1, #1
+//    bl digitalWrite
 
-    ldr r0, =puntuacionBoton
-    bl printf
+//    mov r0, #1500
+//    bl delay
 
-    mov r0, #23
-    mov r1, #1
-    bl digitalWrite
+//    mov r0, #23
+//    mov r1, #0
+//    bl digitalWrite
 
-    mov r0, #1500
-    bl delay
-
-    mov r0, #23
-    mov r1, #0
-    bl digitalWrite
-
-    b finJuego2
+//    b finJuego2
 
 end:
     pop {ip, pc}
