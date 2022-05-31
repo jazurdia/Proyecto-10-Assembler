@@ -46,6 +46,7 @@
     .extern wiringPiSetup
     .extern pinMode
     .extern digitalWrite
+    .extern digitalRead
     .extern delay
 
 
