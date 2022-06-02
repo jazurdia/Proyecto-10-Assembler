@@ -79,6 +79,12 @@ init:
     // GPIO 21| wPi - 21| INPUT
     // GPIO 25| wPi - 25| INPUT
 
+    ldr r3, =puntuacionTecla
+    ldr r4, = puntuacionBoton
+    mov r5, #0
+    str r5,[r3]
+    str r5, [r3]
+
     mov r0, #0 // as output
     mov r1, #1
     bl pinMode
@@ -299,18 +305,15 @@ init:
         //ldr r0, =mensaje3
         //bl printf
 
-        //Mensaje Tecla
         ldr r0, =mensajeTecla
         ldr r1, =puntuacionTecla
-        ldr r1, [r1]
+        ldr r1,[r1]
         bl printf
 
-        //Mensaje del Boton
-        ldr r0, =mensajeBoton
+        ldr r0, =mensajeBoton        
         ldr r1, =puntuacionBoton
-        ldr r1, [r1]
+        ldr r1,[r1]
         bl printf
-        
 
         ldr r2, =puntuacionTecla
         ldr r3, =puntuacionBoton
@@ -321,13 +324,6 @@ init:
 
         //finJuego2:
 
-        ldr r0, =formato
-        ldr r1, =key2 // pedir en teclado "q"
-        bl scanf
-
-        ldr r3, =key2 // cargar primer bit como programación defensiva.
-        ldrb r3, [r3]
-
         mov r0, #7 // wpi 7 "off"
         mov r1, #0
         bl digitalWrite
@@ -336,10 +332,17 @@ init:
         mov r1, #0
         bl digitalWrite
 
+         ldr r0, =formato
+        ldr r1, =key2 // pedir en teclado "q"
+        bl scanf
+
+        ldr r3, =key2 // cargar primer bit como programación defensiva.
+        ldrb r3, [r3]
+
         // comparar r1 con key2, si key2 es igual a "q" en hexadecimal, terminar
         mov r2, #0x71
-        cmp r2, r2
-        beq end
+        cmp r3, r2
+        beq init
 
         //Lectura del sensor para ir a init o end
         mov r0, #25	 		
@@ -371,6 +374,11 @@ sumaBoton: // jugador 2
     ldr r1, [r0]
     add r1, #1
     str r1, [r0]
+
+    ldr r0, =mensajeBoton
+    ldr r1, =puntuacionBoton
+    ldr r1,[r1]
+    bl printf
 
     ldr r0, =jugador2 // mostrar que pulsó el jugador 2
     bl printf
@@ -429,7 +437,10 @@ sumaTecla: // jugador 1
     add r1, #1
     str r1, [r0]
 
-
+    ldr r0, =mensajeTecla
+    ldr r1, =puntuacionTecla
+    ldr r1,[r1]
+    bl printf
 
     ldr r0, =jugador1 // mostrar que pulsó el jugador 2
     bl printf
@@ -520,8 +531,6 @@ myLoopTecla: // jugador 1
 //    ldr r0, =mensajeGano2
 //    bl printf
 
-//    ldr r0, =puntuacionBoton
-//    bl printf
 
 //    mov r0, #23
 //    mov r1, #1
